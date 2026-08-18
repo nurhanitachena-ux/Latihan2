@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Latihan 3 — Buah-buahan (Pilih Jawapan Betul)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700;9..144,900&family=Noto+Sans+Thai:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#FFF8ED;
+    --cream-2:#FBEFD8;
+    --mango-deep:#C7530E;
+    --mango-mid:#F0902B;
+    --mango-glow:#FBC24C;
+    --dragon-pink:#D6336C;
+    --dragon-light:#F2A1C1;
+    --leaf:#3E7A45;
+    --gold:#E8AA3E;
+    --gold-light:#F6D68C;
+    --ink:#2E2013;
+    --ink-soft:#5E4E39;
+    --green:#2F9E67;
+    --green-bg:#E4F6EC;
+    --red:#D9534A;
+    --red-bg:#FBE9E7;
+    --yellow:#B87A16;
+    --yellow-bg:#FBF0DA;
+    --radius:18px;
+    --shadow:0 12px 32px rgba(150,70,20,0.15);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:
+      radial-gradient(circle at 6% 4%, rgba(246,214,140,0.5), transparent 40%),
+      radial-gradient(circle at 94% 10%, rgba(214,51,108,0.10), transparent 42%),
+      var(--cream);
+    font-family:'Noto Sans Thai','Space Mono',sans-serif;
+    color:var(--ink);
+    min-height:100vh;
+    padding:0 0 70px;
+  }
+  .wrap{max-width:820px;margin:0 auto;padding:0 20px;}
+
+  header.top{
+    background:linear-gradient(135deg,var(--dragon-pink),var(--mango-deep) 55%,var(--mango-mid));
+    color:var(--cream);
+    padding:44px 20px 60px;
+    position:relative; overflow:hidden;
+    border-bottom:6px solid var(--leaf);
+  }
+  header.top::before{
+    content:""; position:absolute; inset:0;
+    background-image:
+      radial-gradient(circle at 12% 25%, rgba(255,255,255,0.12) 0 4px, transparent 5px),
+      radial-gradient(circle at 40% 75%, rgba(255,255,255,0.09) 0 3px, transparent 4px),
+      radial-gradient(circle at 70% 15%, rgba(255,255,255,0.12) 0 4px, transparent 5px),
+      radial-gradient(circle at 88% 70%, rgba(255,255,255,0.09) 0 3px, transparent 4px),
+      radial-gradient(circle at 55% 40%, rgba(255,255,255,0.08) 0 3px, transparent 4px);
+    background-size:280px 280px; pointer-events:none;
+  }
+  .top-inner{position:relative; max-width:780px; margin:0 auto; text-align:center;}
+  .fruit-row{font-size:26px; letter-spacing:10px; margin-bottom:10px; opacity:.95;}
+  .eyebrow{
+    font-family:'Space Mono',monospace; letter-spacing:.16em; text-transform:uppercase;
+    font-size:12px; color:var(--gold-light); margin:0 0 10px;
+  }
+  h1.title{
+    font-family:'Fraunces',serif; font-weight:700;
+    font-size:clamp(30px,6vw,48px); margin:0 0 10px; line-height:1.08;
+  }
+  h1.title em{font-style:italic; font-weight:400; color:var(--gold-light);}
+  .subtitle{font-size:14.5px; color:rgba(255,248,237,0.92); max-width:52ch; margin:0 auto; line-height:1.6;}
+
+  .score-badge{
+    display:inline-block; margin-top:18px;
+    background:rgba(0,0,0,0.20); border:1px solid rgba(232,170,62,0.6);
+    border-radius:999px; padding:8px 18px;
+    font-family:'Space Mono',monospace; font-size:13px; color:var(--gold-light);
+  }
+
+  main{margin-top:-32px; position:relative; z-index:2;}
+
+  .intro-card{
+    background:#fff; border-radius:var(--radius); box-shadow:var(--shadow);
+    padding:20px 22px; margin-bottom:20px; border-left:5px solid var(--dragon-pink);
+  }
+  .intro-card p{margin:0; font-size:14.5px; line-height:1.7; color:var(--ink-soft);}
+  .intro-card b{color:var(--mango-deep);}
+
+  .weave-label{font-family:'Space Mono',monospace; font-size:11px; color:var(--ink-soft); margin:0 0 6px; letter-spacing:.06em;}
+  .weave{display:flex; gap:5px; margin-bottom:30px;}
+  .thread{flex:1; height:11px; border-radius:6px; background:#F3DFC0; border:1px solid #E9CB9C;}
+  .thread.done{background:linear-gradient(90deg,var(--dragon-pink),var(--mango-glow)); border-color:var(--mango-mid);}
+
+  .qcard{
+    background:#fff; border-radius:var(--radius); box-shadow:var(--shadow);
+    padding:20px 22px 18px; margin-bottom:16px; border:1px solid rgba(199,83,14,0.08);
+    transition:box-shadow .25s ease;
+  }
+  .qcard.solved{border-color:var(--green); box-shadow:0 8px 24px rgba(47,158,103,0.16);}
+  .qhead{display:flex; align-items:flex-start; gap:12px; margin-bottom:12px;}
+  .qnum{
+    font-family:'Fraunces',serif; font-weight:700; font-size:15px;
+    background:var(--dragon-pink); color:#fff;
+    width:30px; height:30px; border-radius:9px;
+    display:flex; align-items:center; justify-content:center; flex-shrink:0;
+  }
+  .qcard.solved .qnum{background:var(--green);}
+  .sentence{font-family:'Fraunces',serif; font-size:17px; font-weight:500; color:var(--ink); line-height:1.5; padding-top:4px;}
+  .sentence .mly{color:var(--mango-deep); font-style:italic;}
+
+  .mcq-row{display:flex; flex-direction:column; gap:9px; margin-top:12px;}
+  .mcq-opt{
+    display:flex; align-items:center; gap:12px;
+    background:var(--cream-2); border:1.5px solid #E9CB9C; border-radius:12px;
+    padding:11px 14px; cursor:pointer; text-align:left; font-size:14.5px; color:var(--ink);
+    transition:all .15s ease; font-family:'Noto Sans Thai',sans-serif; width:100%;
+  }
+  .mcq-opt:hover{border-color:var(--dragon-pink); transform:translateX(2px);}
+  .mcq-letter{
+    font-family:'Fraunces',serif; font-weight:700; font-size:13px;
+    background:#fff; border:1.5px solid var(--gold); color:var(--mango-deep);
+    width:26px; height:26px; border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0;
+  }
+  .mcq-opt.correct-pick{background:var(--green-bg); border-color:var(--green);}
+  .mcq-opt.correct-pick .mcq-letter{background:var(--green); border-color:var(--green); color:#fff;}
+  .mcq-opt.wrong-pick{background:var(--red-bg); border-color:var(--red);}
+  .mcq-opt.wrong-pick .mcq-letter{background:var(--red); border-color:var(--red); color:#fff;}
+  .mcq-opt:disabled{cursor:default;}
+
+  .feedback{margin-top:12px; padding:10px 13px; border-radius:10px; font-size:13.5px; line-height:1.6; display:none; animation:pop .25s ease;}
+  .feedback.show{display:block;}
+  .feedback.good{background:var(--green-bg); color:#1F6B44; border:1px solid rgba(47,158,103,0.3);}
+  .feedback.bad{background:var(--red-bg); color:#A03A32; border:1px solid rgba(217,83,74,0.3);}
+  @keyframes pop{from{opacity:0; transform:translateY(-4px);} to{opacity:1; transform:translateY(0);}}
+
+  .footer-row{display:flex; justify-content:flex-end; margin-top:12px;}
+  .hint-btn{
+    background:none; border:1px dashed var(--gold); color:var(--yellow);
+    font-family:'Space Mono',monospace; font-size:11.5px; padding:5px 11px; border-radius:8px; cursor:pointer;
+  }
+  .hint-text{font-size:12.5px; color:var(--yellow); margin-top:8px; display:none; background:var(--yellow-bg); padding:7px 11px; border-radius:8px;}
+  .hint-text.show{display:block;}
+
+  .complete-card{
+    background:linear-gradient(135deg,var(--dragon-pink),var(--mango-deep));
+    color:#fff; border-radius:var(--radius); padding:32px 26px;
+    text-align:center; margin-top:14px; display:none; box-shadow:var(--shadow); border:2px solid var(--gold);
+  }
+  .complete-card.show{display:block; animation:pop .4s ease;}
+  .complete-card h2{font-family:'Fraunces',serif; font-size:27px; margin:0 0 8px;}
+  .complete-card p{font-size:14px; color:rgba(255,255,255,0.92); margin:0 0 4px;}
+  .tips-box{margin-top:18px; background:rgba(255,255,255,0.14); border:1px solid rgba(246,214,140,0.5); border-radius:12px; padding:16px 18px; text-align:left;}
+  .tips-box h3{font-family:'Fraunces',serif; font-size:15px; margin:0 0 10px; color:var(--gold-light);}
+  .tips-box ul{margin:0; padding-left:20px; font-size:13px; line-height:1.9; color:rgba(255,255,255,0.95);}
+
+  @media(max-width:600px){
+    header.top{padding:34px 16px 50px;}
+    .sentence{font-size:16px;}
+    .fruit-row{font-size:20px; letter-spacing:6px;}
+  }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="top-inner">
+    <div class="fruit-row">🥭 🍌 🍍 🍇 🐉🍈</div>
+    <p class="eyebrow">Latihan 3 · ใบงานที่สอง เลือกคำที่ถูกต้อง</p>
+    <h1 class="title">Kosa Kata <em>Buah-buahan</em></h1>
+    <p class="subtitle">เรื่อง คำศัพท์ผลไม้ภาษามลายู — เลือกคำตอบที่ถูกต้องที่สุดเพียงข้อเดียว</p>
+    <div class="score-badge" id="scoreBadge">คะแนน 0 / 10</div>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="intro-card">
+    <p><b>คำชี้แจง:</b> เลือกคำตอบที่ถูกต้องที่สุดเพียงข้อเดียวสำหรับคำถามแต่ละข้อ</p>
+  </div>
+
+  <p class="weave-label">ความคืบหน้า · Kemajuan</p>
+  <div class="weave" id="weave"></div>
+
+  <div id="questions"></div>
+
+  <div class="complete-card" id="complete">
+    <h2>🎉 Tahniah!</h2>
+    <p id="scoreText"></p>
+    <p>Semua jawapan betul! คุณจำชื่อผลไม้ภาษามลายูได้ครบทุกคำแล้ว</p>
+    <div class="tips-box">
+      <h3>💡 เคล็ดลับการจำชื่อผลไม้ภาษามลายู</h3>
+      <ul>
+        <li>จับคู่ชื่อผลไม้กับสีหรือรสชาติเด่นของมัน เช่น anggur (องุ่น) มีพวงเป็นลูกกลม ๆ</li>
+        <li>สังเกตคำที่ออกเสียงคล้ายภาษาไทยหรืออินโดนีเซีย เช่น durian ใกล้เคียง "ทุเรียน" มาก</li>
+        <li>ลองฝึกถาม-ตอบสั้น ๆ เช่น "Apakah buah ini?" แล้วตอบชื่อผลไม้ที่เห็น</li>
+        <li>ทำบัตรคำภาพผลไม้คู่กับชื่อภาษามลายู แล้วทบทวนซ้ำเป็นระยะ</li>
+      </ul>
+    </div>
+  </div>
+</main>
+
+<script>
+const data = [
+  {q:'"mangga" หมายถึงผลไม้อะไร?', opts:["กล้วย","มะม่วง","ส้ม","องุ่น"], correct:1, note:'mangga = มะม่วง'},
+  {q:'"pisang" หมายถึงผลไม้อะไร?', opts:["แอปเปิล","แตงโม","กล้วย","ทุเรียน"], correct:2, note:'pisang = กล้วย'},
+  {q:'ข้อใดหมายถึง "แอปเปิล"', opts:["epal","oren","betik","anggur"], correct:0, note:'epal = แอปเปิล'},
+  {q:'"tembikai" หมายถึงอะไร?', opts:["มะละกอ","แตงโม","มะม่วง","ส้ม"], correct:1, note:'tembikai = แตงโม'},
+  {q:'ข้อใดหมายถึง "ทุเรียน"', opts:["pisang","durian","mangga","oren"], correct:1, note:'durian = ทุเรียน'},
+  {q:'"oren" หมายถึงผลไม้อะไร?', opts:["ส้ม","องุ่น","กล้วย","มะละกอ"], correct:0, note:'oren = ส้ม'},
+  {q:'ข้อใดหมายถึง "องุ่น"', opts:["epal","anggur","betik","durian"], correct:1, note:'anggur = องุ่น'},
+  {q:'"betik" หมายถึงอะไร?', opts:["มะละกอ","แตงโม","แอปเปิล","มะม่วง"], correct:0, note:'betik = มะละกอ'},
+  {q:'คำศัพท์ข้อใดเป็นชื่อผลไม้ทั้งหมด', opts:["mangga, pisang, oren","buku, meja, kerusi","makan, minum, tidur","sekolah, guru, murid"], correct:0, note:'mangga (มะม่วง), pisang (กล้วย), oren (ส้ม) ล้วนเป็นชื่อผลไม้'},
+  {q:'ถ้าครูถามว่า "Apakah buah ini?" และชี้ไปที่กล้วย ควรตอบว่าอะไร?', opts:["Ini epal.","Ini oren.","Ini pisang.","Ini mangga."], correct:2, note:'"Ini pisang." แปลว่า "นี่คือกล้วย"'},
+];
+
+let solved = new Set();
+const letters = ["ก","ข","ค","ง"];
+
+const weaveEl = document.getElementById('weave');
+data.forEach((_,i)=>{
+  const t=document.createElement('div'); t.className='thread'; t.id='t'+i;
+  weaveEl.appendChild(t);
+});
+
+const qEl = document.getElementById('questions');
+data.forEach((item,idx)=>{
+  const card = document.createElement('div');
+  card.className='qcard'; card.id='q'+idx;
+  card.innerHTML = `
+    <div class="qhead">
+      <div class="qnum">${idx+1}</div>
+      <div class="sentence">${item.q}</div>
+    </div>
+    <div class="mcq-row" id="opts-${idx}"></div>
+    <div class="feedback" id="fb-${idx}"></div>
+    <div class="footer-row">
+      <button class="hint-btn" onclick="toggleHint('h${idx}')">💡 ขอคำใบ้เพิ่มเติม</button>
+    </div>
+    <div class="hint-text" id="h${idx}">ลองนึกถึงรูปร่าง สี หรือรสชาติของผลไม้ที่โจทย์กล่าวถึง แล้วเทียบกับตัวเลือก</div>
+  `;
+  qEl.appendChild(card);
+
+  const optRow = document.getElementById(`opts-${idx}`);
+  item.opts.forEach((opt,oi)=>{
+    const btn = document.createElement('button');
+    btn.className='mcq-opt';
+    btn.innerHTML = `<span class="mcq-letter">${letters[oi]}</span><span>${opt}</span>`;
+    btn.onclick = ()=>check(idx,oi,btn);
+    optRow.appendChild(btn);
+  });
+});
+
+function check(idx, pickedIdx, btnEl){
+  if(solved.has(idx)) return;
+  const item = data[idx];
+  const fb = document.getElementById(`fb-${idx}`);
+  const allOpts = document.querySelectorAll(`#opts-${idx} .mcq-opt`);
+  const isCorrect = pickedIdx === item.correct;
+
+  if(isCorrect){
+    btnEl.classList.add('correct-pick');
+    allOpts.forEach(o=>o.disabled=true);
+    fb.className='feedback show good';
+    fb.textContent = `🟢 Betul! ${item.note}`;
+    document.getElementById('q'+idx).classList.add('solved');
+    solved.add(idx);
+    document.getElementById('t'+idx).classList.add('done');
+    updateScore();
+    checkComplete();
+  } else {
+    btnEl.classList.add('wrong-pick');
+    allOpts[item.correct].classList.add('correct-pick');
+    fb.className='feedback show bad';
+    fb.textContent = `🔴 Belum tepat. "${item.opts[pickedIdx]}" ไม่ใช่คำตอบที่ถูกต้อง — ${item.note}`;
+  }
+}
+
+function toggleHint(id){ document.getElementById(id).classList.toggle('show'); }
+function updateScore(){ document.getElementById('scoreBadge').textContent = `คะแนน ${solved.size} / ${data.length}`; }
+function checkComplete(){
+  if(solved.size===data.length){
+    document.getElementById('scoreText').textContent = `คะแนน: ${solved.size} / ${data.length}`;
+    document.getElementById('complete').classList.add('show');
+  }
+}
+</script>
+</body>
+</html>
